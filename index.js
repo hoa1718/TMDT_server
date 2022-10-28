@@ -3,8 +3,9 @@ const app = express()
 const port = process.env.port || 4000;
 const path= require('path');
 const cors = require('cors');
-
-
+const route = require('./routes');
+const db= require('./config/dbconnect');
+db.connected();
 app.use(express.static("img"));
 app.use(express.urlencoded({extended: true}));
 app.use(express.json());
@@ -15,6 +16,18 @@ app.use(morgan('combined'))
 
 require('dotenv').config();
 
+const whitelist = ['http://localhost:4000','http://localhost:3000'];
+const corsOptions = {
+  origin: function (origin, callback) {
+    if (whitelist.indexOf(origin) !== -1 || !origin) {
+      callback(null, true)
+    } else {
+      callback(new Error('Not allowed by CORS'))
+    }
+  }
+}
+app.use(cors(corsOptions));
+route(app);
 app.get('/', (req, res) => {
   res.send('Hello World!')
 })
