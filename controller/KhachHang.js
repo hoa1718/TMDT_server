@@ -1,5 +1,4 @@
 const sql = require("mssql");
-const properties = require("../config/properties");
 
 const getKhachHang = async (req, res, next) => {
   const rows = await sql.query`select * from TaiKhoan`;
