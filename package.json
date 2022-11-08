@@ -18,10 +18,7 @@
     "express": "^4.18.1",
     "firebase": "^9.13.0",
     "firebase-admin": "^11.2.0",
-<<<<<<< HEAD
-=======
     "method-override": "^3.0.0",
->>>>>>> dfe1c5efc0797f495e85e6a8393a9b2151120a79
     "morgan": "^1.10.0",
     "msnodesqlv8": "^2.6.0",
     "mssql": "^9.0.1",

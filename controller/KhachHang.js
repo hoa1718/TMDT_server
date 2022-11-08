@@ -15,6 +15,7 @@ const getKhachHang = async (req, res, next) => {
 
 const updateKhachHang = async (req, res, next) => {
   const id = req.params.id;
+  
   const data = req.body
 
   console.log("Data update:", id,data);
