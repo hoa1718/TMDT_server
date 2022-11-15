@@ -1,8 +1,25 @@
 const sql = require("mssql");
-const properties = require("../config/properties");
 
 const getKhachHang = async (req, res, next) => {
+
+
   const rows = await sql.query`select * from TaiKhoan`;
+
+  for (let kh of rows.recordset) {
+    const addressRows =
+      await sql.query`select IdDiaChi,DiaChi,SDT,DiaChiMacDinh from ThongTinNhanHang where IdKhachHang =${kh.IdTaiKhoan}`;
+    const address = addressRows.recordset;
+    kh.address = address;
+  }
+  res.send({ data: rows.recordset });
+};
+const getSearchKhachHang = async (req, res, next) => {
+  const data = req.query
+  console.log("id", data.id);
+
+  const id = data.id ? ` where IdTaiKhoan =${data.id}` : ''
+
+  const rows = await sql.query(`select * from TaiKhoan ${id}`);
 
   for (let kh of rows.recordset) {
     const addressRows =
@@ -32,4 +49,5 @@ const updateKhachHang = async (req, res, next) => {
 module.exports = {
     getKhachHang,
     updateKhachHang,
+    getSearchKhachHang,
 };

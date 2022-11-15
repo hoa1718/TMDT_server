@@ -3,22 +3,24 @@ const properties = require("../config/properties");
 
 const getSanPham = async (req, res, next) => {
   const rows =
-    await sql.query`select sp.Ten,sp.IdSanPham,sp.ChieuCao,sp.ChieuDai,sp.ChieuRong,sp.IdHangSx,sp.IdPhim,sp.SoLuong,sp.TrongLuong,sp.An,p.TenPhim,l.TenLoai,h.TenHang
+    await sql.query`select sp.Ten,sp.IdSanPham,sp.ChieuCao,sp.ChieuDai,sp.ChieuRong,sp.IdHangSx,sp.IdPhim,sp.SoLuong,sp.TrongLuong,sp.An,p.TenPhim,l.TenLoai,h.TenHang,
+    (select Top 1 DonGiaNhap from CTPhieuNhap ct where ct.IdSanPham=sp.IdSanPham order by DonGiaNhap asc) as GiaNhap
     from SanPham sp, Phim p,HangSx h,PhanLoai l
     where sp.IdPhim = p.IdPhim and p.IdLoai= l.Id and sp.IdHangSx = h.IdHangSx `;
 
-  for (let sp of rows.recordset) {
-    const imageRows =
-      await sql.query`select * from HinhAnhSp where IdSp =${sp.IdSanPham}`;
-    const images = imageRows.recordset;
+    
+  // for (let sp of rows.recordset) {
+  //   const imageRows =
+  //     await sql.query`select * from HinhAnhSp where IdSp =${sp.IdSanPham}`;
+  //   const images = imageRows.recordset;
 
-    sp.images = images.map((img) => {
-      img.HinhAnh = properties.IMAGE_URL + "/" + img.HinhAnh;
-      return img;
-    });
-  }
+  //   sp.images = images.map((img) => {
+  //     img.HinhAnh = properties.IMAGE_URL + "/" + img.HinhAnh;
+  //     return img;
+  //   });
+  // }
 
-  res.send({ data: rows.recordset });
+  await res.send({ data: rows.recordset });
 };
 const search = async (req, res, next) => {
   const search  = req.params.search
@@ -76,11 +78,24 @@ const createSanPham = async (req, res, next) => {
   res.send({ data: lastId.recordset[0].LastId });
 };
 
+const searchSp = async (req, res, next) => {
+  const search  = req.params.searchSp
+  console.log(search);
+  const param = '%'+search+'%'
+  const rows =
+    await sql.query`select sp.IdSanPham,sp.Ten
+    from SanPham sp
+    where sp.Ten like ${param} `;
+
+  res.send({ data: rows.recordset });
+};
+
 module.exports = {
   getSanPham,
   getChiTiet,
   updateSanPham,
   createSanPham,
-  search
+  search,
+  searchSp,
 
 };

@@ -3,12 +3,7 @@ const app = express()
 const port = process.env.port || 4000;
 const path= require('path');
 const cors = require('cors');
-const {connect} = require('./config/db')
-const router = require('./routes')
-
-app.use(cors())
-app.use(express.static("images"));
-const route = require('./routes');
+const router = require('./routes');
 const db= require('./config/db');
 db.connect();
 app.use(express.static("img"));
@@ -20,7 +15,6 @@ const morgan = require('morgan');
 app.use(morgan('combined'))
 
 require('dotenv').config();
-connect();
 
 const whitelist = ['http://localhost:4000','http://localhost:3000'];
 const corsOptions = {
@@ -33,12 +27,13 @@ const corsOptions = {
   }
 }
 app.use(cors(corsOptions));
-route(app);
+router(app)
+
 app.get('/', (req, res) => {
   res.send('Hello World!')
 })
 
-router(app)
+
 
 app.listen(process.env.PORT||port, () => {
   console.log(`Example app listening on port ${port}`)

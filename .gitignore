@@ -1,7 +1,5 @@
 *.history
-<<<<<<< HEAD
 /config/db.js
-=======
 node_modules
 dbconnect.js
->>>>>>> dfe1c5efc0797f495e85e6a8393a9b2151120a79
+/index.js

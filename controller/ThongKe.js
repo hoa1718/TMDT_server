@@ -54,10 +54,16 @@ const getDonHangHomNay = async (req, res, next) => {
   const rows = await sql.query`Select COUNT(IDHoaDon) as Hoadon from HoaDon where NgayMua  = CONVERT (date, SYSDATETIME())`;
   res.send({ data: rows.recordset });
 };
+const getTop10 = async (req, res, next) => {
+
+  const rows = await sql.query`select top 10 *  from SanPham order by SLBan desc`;
+  res.send({ data: rows.recordset });
+};
 module.exports = {
   getThongKe,
   getThongKeThang,
   getThongKeNgay,
   getDonHangChuaXuLy,
   getDonHangHomNay,
+  getTop10,
 };

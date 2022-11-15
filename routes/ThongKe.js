@@ -7,5 +7,6 @@ router.get('/ThongKeThang', controller.getThongKeThang)
 router.get('/ThongKeNgay', controller.getThongKeNgay)
 router.get('/DonHangChuaXuLy', controller.getDonHangChuaXuLy)
 router.get('/DonHangHomNay', controller.getDonHangHomNay)
+router.get('/Top10', controller.getTop10)
 
 module.exports= router;
