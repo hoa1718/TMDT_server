@@ -4,8 +4,8 @@ const port = process.env.port || 4000;
 const path= require('path');
 const cors = require('cors');
 const router = require('./routes');
-const db= require('./config/db');
-db.connect();
+const db= require('./config/dbconnect');
+db.connected();
 app.use(express.static("img"));
 app.use(express.urlencoded({extended: true}));
 app.use(express.json());
@@ -16,7 +16,7 @@ app.use(morgan('combined'))
 
 require('dotenv').config();
 
-const whitelist = ['http://localhost:4000','http://localhost:3000'];
+const whitelist = ['https://tmdt-21-server.herokuapp.com/','http://localhost:3000'];
 const corsOptions = {
   origin: function (origin, callback) {
     if (whitelist.indexOf(origin) !== -1 || !origin) {
@@ -30,7 +30,7 @@ app.use(cors(corsOptions));
 router(app)
 
 app.get('/', (req, res) => {
-  res.send('Hello World!')
+  res.send('Nhom 21!')
 })
 
 
