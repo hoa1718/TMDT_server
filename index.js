@@ -1,6 +1,6 @@
 const express = require('express')
 const app = express()
-const port = process.env.port || 4000;
+const port = process.env.PORT || 4000;
 const path= require('path');
 const cors = require('cors');
 const router = require('./routes');
@@ -33,8 +33,6 @@ app.get('/', (req, res) => {
   res.send('Nhom 21!')
 })
 
-
-
-app.listen(process.env.PORT||port, () => {
+app.listen(port, () => {
   console.log(`Example app listening on port ${port}`)
 })
