@@ -6,7 +6,7 @@ const cors = require('cors');
 const router = require('./routes');
 const db= require('./config/dbconnect');
 db.connected();
-app.use(express.static("img"));
+
 app.use(express.urlencoded({extended: true}));
 app.use(express.json());
 app.use(express.static(path.join(__dirname,'img')));
