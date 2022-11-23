@@ -16,7 +16,7 @@ app.use(morgan('combined'))
 
 require('dotenv').config();
 
-const whitelist = ['http://localhost:4000','http://localhost:3000'];
+const whitelist = ['https://tmdt-21-server.herokuapp.com/','http://localhost:3000'];
 const corsOptions = {
   origin: function (origin, callback) {
     if (whitelist.indexOf(origin) !== -1 || !origin) {
