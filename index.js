@@ -30,7 +30,7 @@ app.use(cors(corsOptions));
 router(app)
 
 app.get('/', (req, res) => {
-  res.send('Hello World!')
+  res.send('Nhom 21!')
 })
 
 

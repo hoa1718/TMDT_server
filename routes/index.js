@@ -5,6 +5,7 @@ const phimRouter = require("./Phim");
 const hangRouter = require("./Hangsx");
 const loginRouter = require("./Login");
 
+
 function route(app){
     app.use("/HoaDon",hoaDonRouter);
     app.use("/KhachHang",khachHangRouter);
@@ -12,6 +13,7 @@ function route(app){
     app.use("/Phim",phimRouter);    
     app.use("/Hang",hangRouter);
     app.use("/Login",loginRouter);
+
 
 }
 module.exports = route;
