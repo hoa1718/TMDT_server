@@ -8,8 +8,9 @@ class loginController{
             const data= await req.body
 
             console.log("data",data);
-            let row= await sql.query`select * from TaiKhoan where TenDangNhap = ${data.username} and ChucVu = 1`;
+            let row= await sql.query`select * from TaiKhoan where TenDangNhap =${data.username} and ChucVu = 1`;
             console.log("row",row);
+            
             if(row.rowsAffected==0){
                return res.status(500).json("Không tồn tại tài khoản này")
                

@@ -8,18 +8,12 @@ class loginController{
             if(row.rowsAffected==0){
                res.send("Không tồn tại tài khoản này")
             }
-            bcrypt.hash(data.password, 10, function(err, hash) {
-                if (err) { throw (err); }
-            
-                bcrypt.compare(row.recordset[0].MatKhau, hash, function(err, result) {
-                    console.log(hash);
-                    console.log(row.recordset[0].MatKhau);
-                    if (err) { throw (err); }
-                    console.log(result);
-                });
-            });
-            const match= await bcrypt.compareSync(row.recordset[0].MatKhau,data.password)
-            console.log(match);
+            else if(data.password!==row.recordset[0].MatKhau){
+                res.send("Sai tài khoản hoặc mật khẩu")
+            }
+            else{
+                res.send(row.recordset[0])
+            }
         }
         catch (err) {
             console.log(err);
@@ -31,6 +25,14 @@ class loginController{
         try{
             const data= await req.body
             console.log(req.body);
+            let row= await sql.query`select * from TaiKhoan where TenDangNhap =${data.username} or Email=${data.email}` ;
+            if(row.rowsAffected>0){
+                res.send("Đã tồn tại tài khoản hoặc email này")
+            }
+            else{
+                let row = await sql.query`insert into TaiKhoan (TenDangNhap,MatKhau,Email) values (${data.username},${data.password},${data.email})`
+                res.send("Đăng ký thành công")
+            }
         }
         catch (err) {
             console.log(err);

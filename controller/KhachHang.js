@@ -44,10 +44,16 @@ const updateKhachHang = async (req, res, next) => {
 
   res.send({ data: "ok" });
 };
+const getDiaChi = async (req,res,next)=>{
+  const id=req.params.id;
+  const rows= await sql.query` select * from ThongTinNhanHang where IdKhachHang=${id}`
+  res.send({data:rows.recordset})
+}
 
 
 module.exports = {
     getKhachHang,
     updateKhachHang,
     getSearchKhachHang,
+    getDiaChi
 };
