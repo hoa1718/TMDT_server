@@ -2,4 +2,4 @@
 /config/db.js
 node_modules
 dbconnect.js
-/index.js
+./index.js

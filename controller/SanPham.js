@@ -10,15 +10,15 @@ const getSanPham = async (req, res, next) => {
 
     
   // for (let sp of rows.recordset) {
-  //   const imageRows =
-  //     await sql.query`select * from HinhAnhSp where IdSp =${sp.IdSanPham}`;
-  //   const images = imageRows.recordset;
+  //   const giaRows =
+  //     await sql.query`select max(DonGiaNhap) from CTPhieuNhap where IdSanPham =${sp.IdSanPham}`;
+  //   const donGia = giaRows.recordset;
+  // }
 
   //   sp.images = images.map((img) => {
   //     img.HinhAnh = properties.IMAGE_URL + "/" + img.HinhAnh;
   //     return img;
   //   });
-  // }
 
   await res.send({ data: rows.recordset });
 };
