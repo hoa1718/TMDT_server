@@ -5,6 +5,7 @@ class loginController{
         try{
             const data= await req.body
             let row= await sql.query`select * from TaiKhoan where TenDangNhap =${data.username}`;
+            setTimeout(()=>{},3000);
             if(row.rowsAffected==0){
                res.send("Không tồn tại tài khoản này")
             }
