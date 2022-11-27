@@ -3,7 +3,7 @@ const properties = require("../config/properties");
 
 const getSanPham = async (req, res, next) => {
   const rows =
-    await sql.query`select sp.Ten,sp.IdSanPham,sp.ChieuCao,sp.ChieuDai,sp.ChieuRong,sp.IdHangSx,sp.IdPhim,sp.SoLuong,sp.TrongLuong,sp.An,p.TenPhim,l.TenLoai,h.TenHang,
+    await sql.query`select sp.Ten,sp.IdSanPham,sp.ChieuCao,sp.ChieuDai,sp.ChieuRong,sp.IdHangSx,sp.IdPhim,sp.SoLuong,sp.TrongLuong,sp.An,p.TenPhim,l.TenLoai,h.Ten,
     (select Top 1 DonGiaNhap from CTPhieuNhap ct where ct.IdSanPham=sp.IdSanPham order by DonGiaNhap asc) as GiaNhap
     from SanPham sp, Phim p,HangSx h,PhanLoai l
     where sp.IdPhim = p.IdPhim and p.IdLoai= l.Id and sp.IdHangSx = h.IdHangSx `;
@@ -28,7 +28,7 @@ const search = async (req, res, next) => {
   console.log(search);
   const param = '%'+search+'%'
   const rows =
-    await sql.query`select sp.Ten,sp.IdSanPham,sp.ChieuCao,sp.ChieuDai,sp.ChieuRong,sp.IdHangSx,sp.IdPhim,sp.SoLuong,sp.TrongLuong,sp.An,p.TenPhim,l.TenLoai,h.TenHang
+    await sql.query`select sp.Ten,sp.IdSanPham,sp.ChieuCao,sp.ChieuDai,sp.ChieuRong,sp.IdHangSx,sp.IdPhim,sp.SoLuong,sp.TrongLuong,sp.An,p.TenPhim,l.TenLoai,h.Ten
     from SanPham sp, Phim p,HangSx h,PhanLoai l
     where sp.IdPhim = p.IdPhim and sp.Ten like ${param} and p.IdLoai= l.Id and sp.IdHangSx = h.IdHangSx  `;
 
