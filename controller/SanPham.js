@@ -2,25 +2,19 @@ const sql = require("mssql");
 const properties = require("../config/properties");
 
 const getSanPham = async (req, res, next) => {
-  const rows =
+  try {
+    const rows =
     await sql.query`select sp.Ten,sp.IdSanPham,sp.ChieuCao,sp.ChieuDai,sp.ChieuRong,sp.IdHangSx,sp.IdPhim,sp.SoLuong,sp.TrongLuong,sp.An,p.TenPhim,l.TenLoai,h.Ten,
     (select Top 1 DonGiaNhap from CTPhieuNhap ct where ct.IdSanPham=sp.IdSanPham order by DonGiaNhap asc) as GiaNhap
     from SanPham sp, Phim p,HangSx h,PhanLoai l
-    where sp.IdPhim = p.IdPhim and p.IdLoai= l.Id and sp.IdHangSx = h.IdHangSx `;
-
-    
-  // for (let sp of rows.recordset) {
-  //   const giaRows =
-  //     await sql.query`select max(DonGiaNhap) from CTPhieuNhap where IdSanPham =${sp.IdSanPham}`;
-  //   const donGia = giaRows.recordset;
-  // }
-
-  //   sp.images = images.map((img) => {
-  //     img.HinhAnh = properties.IMAGE_URL + "/" + img.HinhAnh;
-  //     return img;
-  //   });
-
-  await res.send({ data: rows.recordset });
+    where sp.IdPhim = p.IdPhim and p.IdLoai= l.Id and sp.IdHangSx = h.IdHangSx `.then((a)=>{
+      res.send({ data: a.recordset });
+  }
+  );
+  }
+  catch(err){
+    console.log(err)
+  }
 };
 const search = async (req, res, next) => {
   const search  = req.params.search
