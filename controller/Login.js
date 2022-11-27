@@ -23,11 +23,6 @@ class loginController{
             res.send("Không thành công!");
           }
         
-        catch (err) {
-            console.log(err);
-            res.send("Không thành công!");
-          }
-        
     }
     async registration(req,res,next){
         try{
