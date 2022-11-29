@@ -10,6 +10,11 @@ db.connected();
 app.use(express.urlencoded({extended: true}));
 app.use(express.json());
 app.use(express.static(path.join(__dirname,'img')));
+app.use(function(req, res, next) {
+     res.header("Access-Control-Allow-Origin", "*");
+     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+     next();
+});
 
 const morgan = require('morgan');
 app.use(morgan('combined'))
@@ -27,7 +32,7 @@ require('dotenv').config();
 //   }
 // }
 // app.use(cors(corsOptions));
-app.options('*', cors())
+// app.options('*', cors())
 // app.use(cors());
 router(app)
 
