@@ -5,15 +5,18 @@ class loginController{
         try{
             const data= await req.body
             let row= await sql.query`select * from TaiKhoan where TenDangNhap =${data.username}`;
-            if(row.rowsAffected==0){
-               res.send("Không tồn tại tài khoản này")
-            }
-            else if(data.password!==row.recordset[0].MatKhau){
-                res.send("Sai tài khoản hoặc mật khẩu")
-            }
-            else{
-                res.send(row.recordset[0])
-            }
+            setTimeout(()=>{
+                if(row.rowsAffected==0){
+                    res.send("Không tồn tại tài khoản này")
+                 }
+                 else if(data.password!==row.recordset[0].MatKhau){
+                     res.send("Sai tài khoản hoặc mật khẩu")
+                 }
+                 else{
+                     res.send(row.recordset[0])
+                 }
+            },3000);
+           
         }
         catch (err) {
             console.log(err);

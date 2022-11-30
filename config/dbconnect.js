@@ -16,7 +16,6 @@ function connected(){
         database: 'db_a90403_admin',
         trustServerCertificate: true
     };
-    // connect to your database
     sql.connect(config, function (err) {
     
         if (err) console.log(err);

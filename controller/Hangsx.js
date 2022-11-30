@@ -12,7 +12,7 @@ const getHangAdmin = async (req, res, next) => {
 const postHang = async (req, res, next) =>{
   const data = req.body;
   console.log(data);
-  await sql.query`insert into HangSx(Ten) values (${data.TenHang})`
+  await sql.query`insert into HangSx(Ten) values (${data.Ten})`
   
 }
 
