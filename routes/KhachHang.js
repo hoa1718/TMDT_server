@@ -6,5 +6,6 @@ router.get('/search/SearchKhachHang',controller.getSearchKhachHang)
 router.get('/', controller.getKhachHang)
 router.post('/:id',controller.updateKhachHang);
 router.get("/DiaChi/:id",controller.getDiaChi)
+router.get("/search/:id",controller.getKhachHangWID)
 
 module.exports= router;

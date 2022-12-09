@@ -5,6 +5,8 @@ const controller= require("../controller/HoaDon");
 router.post('/create',controller.create);
 router.get('/SearchHoaDon/',controller.searchHoaDon);
 router.get('/:type', controller.getHoaDon);
+router.get('/KhachHang/:id', controller.getHoaDonWUser);
+router.get('/Detail/:id', controller.getHoaDonDetail);
 router.post('/ChapNhanDonHang/:id', controller.chapNhanDonHang);
 router.post('/HuyDonHang/:id', controller.huyDonHang);
 
