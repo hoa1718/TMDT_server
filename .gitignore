@@ -1,4 +1,5 @@
 *.history
 *.config
 node_modules
+/config/dbconnect.js
 /index.js

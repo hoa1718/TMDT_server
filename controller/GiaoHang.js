@@ -61,7 +61,7 @@ const giaoThatBai = async (req, res, next) => {
   await sql.query`update HoaDon
   set TrangThaiDonHang =-1 , TrangThaiGiaoHang = -1
   where IdHoaDon = ${id}`
-  for(let i of CT)
+  for(let i of CT) 
   {
    await sql.query`update SanPham
               set SoLuong = SoLuong + ${i.SoLuong} where IdSanPham = ${i.IdSanPham}`

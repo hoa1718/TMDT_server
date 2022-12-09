@@ -26,9 +26,9 @@ const getSearchKhachHang = async (req, res, next) => {
   const data = req.query
   console.log("id", data.id);
 
-  const id = data.id ? ` where IdTaiKhoan =${data.id}` : ''
-
-  const rows = await sql.query(`select * from TaiKhoan ${id}`);
+  const id = data.id ? ` where TenKhachHang like '%${data.id}%'` : ''
+  console.log('Name',id);
+  const rows = await sql.query(`select * from TaiKhoan ${id} `);
 
   for (let kh of rows.recordset) {
     const addressRows =
@@ -37,6 +37,7 @@ const getSearchKhachHang = async (req, res, next) => {
     kh.address = address;
   }
   res.send({ data: rows.recordset });
+  // res.send('ok');
 };
 
 const updateKhachHang = async (req, res, next) => {

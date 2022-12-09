@@ -95,17 +95,17 @@ const getHoaDon = async (req, res, next) => {
   const q = listType[type];
 
   const rows =
-    await sql.query`select hd.TrangThaiDonHang,hd.TrangThaiGiaoHang, hd.IdHoaDon,hd.NgayMua,ht.TenHinhThuc,tt.DiaChi,tt.SDT,tk.TenKhachHang,hd.TenKhachNoLog,SDTNoLog, sum(ct.SoLuong) as TongSL, sum(ct.SoLuong*ct.DonGiaBan) as Tong
+    await sql.query`select hd.TrangThaiDonHang,hd.TrangThaiGiaoHang, hd.IdHoaDon,hd.NgayMua,ht.TenHinhThuc,tt.DiaChi,tt.SDT,tt.IdKhachHang,tt.HoTenNguoiNhan,tk.TenKhachHang,hd.TenKhachNoLog,SDTNoLog, sum(ct.SoLuong) as TongSL, sum(ct.SoLuong*ct.DonGiaBan) as Tong
   from HoaDon hd, ThongTinNhanHang tt,TaiKhoan tk,HinhThucThanhToan ht, CTHoaDon ct
   where hd.DiaChiNhan = tt.IdDiaChi and hd.IdTaiKhoan = tk.IdTaiKhoan and hd.IdHinhThuc = ht.IdHinhThuc and hd.IdHoaDon = ct.IdHoaDon
   and hd.TrangThaiDonHang = ${q.TrangThaiDonHang} and hd.TrangThaiGiaoHang = ${q.TrangThaiGiaoHang}
-  group by hd.IdHoaDon,hd.NgayMua,ht.TenHinhThuc,tt.DiaChi,tt.SDT,tk.TenKhachHang,hd.TenKhachNoLog,SDTNoLog,hd.TrangThaiDonHang,hd.TrangThaiGiaoHang`;
+  group by hd.IdHoaDon,hd.NgayMua,ht.TenHinhThuc,tt.DiaChi,tt.SDT,tk.TenKhachHang,hd.TenKhachNoLog,SDTNoLog,hd.TrangThaiDonHang,hd.TrangThaiGiaoHang,tt.IdKhachHang,tt.HoTenNguoiNhan`;
   for (let hd of rows.recordset) {
     const ctRows =
-      await sql.query`select sp.Ten, ct.SoLuong,ct.DonGiaBan, sum(ct.SoLuong*ct.DonGiaBan) as Tong
+      await sql.query`select sp.IdSanPham, sp.Ten, ct.SoLuong,ct.DonGiaBan, sum(ct.SoLuong*ct.DonGiaBan) as Tong
       from CTHoaDon ct, SanPham sp
       where ct.IdSp = sp.IdSanPham and ct.IdHoaDon = ${hd.IdHoaDon}
-      group by sp.Ten, ct.SoLuong,ct.DonGiaBan`;
+      group by sp.Ten, ct.SoLuong,ct.DonGiaBan,sp.IdSanPham`;
     const CT = ctRows.recordset;
     hd.CT = CT;
   }
@@ -125,11 +125,21 @@ const chapNhanDonHang = async (req, res, next) => {
 
 const huyDonHang = async (req, res, next) => {
   const id = req.params.id;
+  const data = req.body;
+  const CT = data.CT
+  console.log("data",data);
+  console.log("CT",CT);
   console.log("id:", id);
 
   sql.query`update HoaDon
     set TrangThaiDonHang =-1, TrangThaiGiaoHang =-1
     where IdHoaDon = ${id}`;
+  for(let i of CT) 
+  {
+   await sql.query`update SanPham
+              set SoLuong = SoLuong + ${i.SoLuong} where IdSanPham = ${i.IdSanPham}`
+  }
+
 
   res.send({ status: "ok" });
 };
@@ -157,10 +167,10 @@ const searchHoaDon = async (req, res, next) => {
   group by hd.IdHoaDon,hd.NgayMua,ht.TenHinhThuc,tt.DiaChi,tt.SDT,tk.TenKhachHang,hd.TenKhachNoLog,SDTNoLog,hd.TrangThaiDonHang,hd.TrangThaiGiaoHang`);
   for (let hd of rows.recordset) {
     const ctRows =
-      await sql.query`select sp.Ten, ct.SoLuong,ct.DonGiaBan, sum(ct.SoLuong*ct.DonGiaBan) as Tong
+      await sql.query`select sp.IdSanPham, sp.Ten, ct.SoLuong,ct.DonGiaBan, sum(ct.SoLuong*ct.DonGiaBan) as Tong
       from CTHoaDon ct, SanPham sp
       where ct.IdSp = sp.IdSanPham and ct.IdHoaDon = ${hd.IdHoaDon}
-      group by sp.Ten, ct.SoLuong,ct.DonGiaBan`;
+      group by sp.Ten, ct.SoLuong,ct.DonGiaBan,sp.IdSanPham`;
     const CT = ctRows.recordset;
     hd.CT = CT;
   }
