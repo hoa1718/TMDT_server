@@ -16,9 +16,13 @@ const create = async (req, res, next) => {
         });
       }
     });
-    addressId(request.User.IdTaiKhoan, request.DiaChi).then((a) => {
-      address = a;
-    });
+    console.log(request);
+    if(request.User !==undefined){
+      addressId(request.User.IdTaiKhoan, request.DiaChi).then((a) => {
+        address = a;
+      });
+    }
+    
     if (request.User !== undefined) {
       const rows =
         await sql.query`insert into HoaDon(IdTaiKhoan,TrangThaiGiaoHang,NgayMua,IdHinhThuc,DiemSuDung,TrangThaiDonHang,DiaChiNhan)
@@ -29,10 +33,10 @@ const create = async (req, res, next) => {
         )},${request.IdHinhThuc},${request.DiemSuDung},${Number(0)},${
           request.DiaChi
         })`;
-      billCreate =
-        await sql.query`select IdHoaDon from HoaDon where IdTaiKhoan=${
-          request.User.IdTaiKhoan
-        } and NgayMua=${new Date(request.NgayMua)}`;
+      // billCreate =
+      //   await sql.query`select IdHoaDon from HoaDon where IdTaiKhoan=${
+      //     request.User.IdTaiKhoan
+      //   } and NgayMua=${new Date(request.NgayMua)}`;
         usedPoint(request.User.IdTaiKhoan, request.DiemSuDung);
     } else {
       const rows =
@@ -48,7 +52,7 @@ const create = async (req, res, next) => {
         )} and NgayMua=${new Date(request.NgayMua)}`;
         await sql.query`insert into ThongTinNhanHang(IdKhachHang,DiaChi,SDT,DiaChiMacDinh,HoTenNguoiNhan) values(2,${request.DiaChi},${request.Sdt},1,${request.TenNguoiNhan})`;
         const newAddress= sql.query`select * from ThongTinNhanHang where IdKhachHang=2 and DiaChi=${request.DiaChi} and SDT=${request.Sdt}`;
-        console.log((await newAddress).recordset[0]);
+        await sql.query`update HoaDon set DiaChiNhan= ${(await newAddress).recordset[0].IdDiaChi} where IdHoaDon=${billCreate.recordset[0].IdHoaDon}`
     }
     request.Cart.map(async (item, i) => {
       const row =
@@ -58,7 +62,9 @@ const create = async (req, res, next) => {
           item.GiaNhap * 1.4
         )}) update SanPham set SoLuong -= ${item.Quantity} where IdSanPham= ${
           item.IdSanPham
-        }`;
+        }  update SanPham set SLBan += ${item.Quantity} where IdSanPham= ${
+          item.IdSanPham
+        }` ;
     });
     
     res.send({ message: "Yes" });
@@ -81,6 +87,9 @@ const compareQuantity = async (cart) => {
   }
   return true;
 };
+const plusPoint = async (cart)=>{
+
+}
 const usedPoint = async (id, point) => {
   const row =
     await sql.query`update TaiKhoan set DiemThuong-=${point}  where IdTaiKhoan=${id}`;
@@ -178,7 +187,7 @@ const searchHoaDon = async (req, res, next) => {
 };
 const getHoaDonWUser = async (req, res, next) => {
   const rows =
-    await sql.query`select * from HoaDon where IdTaiKhoan=${req.params.id}`;
+    await sql.query`select * from HoaDon where IdTaiKhoan=${req.params.id} ORDER BY IdHoaDon DESC`;
   res.send({ data: rows.recordset });
 };
 const getHoaDonDetail = async (req, res, next) => {

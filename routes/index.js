@@ -11,7 +11,6 @@ const nhapRouter = require("./NhapHang")
 const ttRouter = require("./ThongTinCuaHang")
 const tkRouter = require("./ThongKe")
 const theLoaiRouter = require("./TheLoai")
-// const loginRouter= require("./Login")
 const loginAdminRouter = require("./LoginAdmin")
 function route(app){
     app.use("/HoaDon",hoaDonRouter);
