@@ -4,7 +4,7 @@ const port = process.env.PORT || 5000;
 const path= require('path');
 const cors = require('cors');
 const router = require('./routes');
-const db= require('./config/dbconnect ');
+const db= require('./config/dbconnect.js');
 db.connected();
 
 app.use(express.urlencoded({extended: true}));
