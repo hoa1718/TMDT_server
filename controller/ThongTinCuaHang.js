@@ -8,7 +8,7 @@ const getThongTin = async (req,res,next) => {
     //     const addressRows = await sql.query`select * from ThongTinCuaHang`;
     //     const address = addressRows.recordset;
     //     tt.address = address;
-    // }
+    // } 
     res.send({ data: rows.recordset });
 }
 
