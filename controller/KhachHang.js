@@ -70,6 +70,28 @@ const changePassword = async (req, res, next) => {
     res.send("No");
   }
 };
+const updateAddress = async (req, res, next) => {
+  try {
+    const request = await req.body;
+    console.log(request);
+    sql.query`update ThongTinNhanHang set HoTenNguoiNhan=${request.TenNguoiNhan},DiaChi=${request.DiaChi},SDT=${request.SDT} where IdDiaChi=${request.ID}`;
+    res.send("Yes");
+  } catch (err) {
+    console.log(err);
+    res.send("No");
+  }
+};
+const createAddress = async (req, res, next) => {
+  try {
+    const request = await req.body;
+    console.log(request);
+    sql.query`insert into ThongTinNhanHang(IdKhachHang,DiaChi,SDT,DiaChiMacDinh,HoTenNguoiNhan) values(${request.User},${request.DiaChi},${request.SDT},0,${request.TenNguoiNhan})`;
+    res.send("Yes");
+  } catch (err) {
+    console.log(err);
+    res.send("No");
+  }
+};
 const changeInfo = async (req, res, next) => {
   try {
     const request = await req.body;
@@ -88,4 +110,6 @@ module.exports = {
   getDiaChi,
   changePassword,
   changeInfo,
+  updateAddress,
+  createAddress,
 };

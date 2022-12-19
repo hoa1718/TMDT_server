@@ -33,10 +33,10 @@ const create = async (req, res, next) => {
         )},${request.IdHinhThuc},${request.DiemSuDung},${Number(0)},${
           request.DiaChi
         })`;
-      // billCreate =
-      //   await sql.query`select IdHoaDon from HoaDon where IdTaiKhoan=${
-      //     request.User.IdTaiKhoan
-      //   } and NgayMua=${new Date(request.NgayMua)}`;
+      billCreate =
+        await sql.query`select IdHoaDon from HoaDon where IdTaiKhoan=${
+          request.User.IdTaiKhoan
+        } and NgayMua=${new Date(request.NgayMua)}`;
         usedPoint(request.User.IdTaiKhoan, request.DiemSuDung);
     } else {
       const rows =

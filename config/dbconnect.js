@@ -3,11 +3,12 @@ function connected(){
   
     // config for your database
     var config = {
-        user: 'admin',
+        user: 'hoa',
         password: 'Giahoa123',
         server: 'localhost', 
         database: 'TMDT',
-        trustServerCertificate: true
+        trustServerCertificate: true,
+        
     };
     // var config = {
     //     user: 'db_a90403_admin_admin',

@@ -9,5 +9,7 @@ router.get("/DiaChi/:id",controller.getDiaChi)
 router.get("/search/:id",controller.getKhachHangWID)
 router.post("/update/password",controller.changePassword)
 router.post("/update/info",controller.changeInfo)
+router.post("/update/address",controller.updateAddress)
+router.post("/create/address",controller.createAddress)
     
 module.exports= router;
